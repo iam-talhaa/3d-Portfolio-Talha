@@ -15,7 +15,7 @@ const setLighting = (scene: THREE.Scene) => {
 
   const pointLight = new THREE.PointLight(0x22d3ee, 0, 100, 3);
   pointLight.position.set(3, 12, 4);
-  pointLight.castShadow = true;
+  pointLight.castShadow = false;
   scene.add(pointLight);
 
   new RGBELoader()

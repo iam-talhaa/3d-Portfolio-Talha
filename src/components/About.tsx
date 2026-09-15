@@ -6,11 +6,15 @@ const About = () => {
       <div className="about-me">
         <h3 className="title">About Me</h3>
         <p className="para">
-          I am currently co-founder of CallHQ.ai, building real-time voice AI for
-          businesses. I am a technologist at heart with strong business judgment—
-          I enjoy going from product strategy to hands-on engineering. My background
-          spans leadership at Adobe, founding Broki and CallHQ, and shipping
-          full-stack products end to end.
+          I am a Flutter Developer specializing in building high-performance,
+          cross-platform mobile applications for Android and iOS. I work
+          extensively with Dart, state management solutions like BLoC, Provider,
+          and GetX, and integrate Firebase, REST APIs, and Clean Architecture into
+          every project. I have delivered apps across real estate, ride-hailing,
+          healthcare, and e-learning domains. As a Certified Scrum Master, I bring
+          strong Agile practices — sprint planning and collaborative delivery —
+          into my development process, and I'm passionate about writing clean,
+          maintainable, user-centric code.
         </p>
       </div>
     </div>

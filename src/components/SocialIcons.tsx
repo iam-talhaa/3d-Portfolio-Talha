@@ -1,8 +1,7 @@
 import {
   FaGithub,
-  FaInstagram,
   FaLinkedinIn,
-  FaYoutube,
+  FaWhatsapp,
 } from "react-icons/fa6";
 import "./styles/SocialIcons.css";
 import { TbNotes } from "react-icons/tb";
@@ -11,49 +10,79 @@ import HoverLinks from "./HoverLinks";
 
 const SocialIcons = () => {
   useEffect(() => {
-    const social = document.getElementById("social") as HTMLElement;
+    const social = document.getElementById("social");
+    if (!social) return;
+
+    const cleanupFns: (() => void)[] = [];
 
     social.querySelectorAll("span").forEach((item) => {
       const elem = item as HTMLElement;
       const link = elem.querySelector("a") as HTMLElement;
+      if (!link) return;
 
       const rect = elem.getBoundingClientRect();
-      let mouseX = rect.width / 2;
-      let mouseY = rect.height / 2;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      let mouseX = centerX;
+      let mouseY = centerY;
       let currentX = 0;
       let currentY = 0;
+      let animId: number | null = null;
 
-      const updatePosition = () => {
+      const step = () => {
         currentX += (mouseX - currentX) * 0.1;
         currentY += (mouseY - currentY) * 0.1;
 
         link.style.setProperty("--siLeft", `${currentX}px`);
         link.style.setProperty("--siTop", `${currentY}px`);
 
-        requestAnimationFrame(updatePosition);
+        if (Math.abs(mouseX - currentX) > 0.1 || Math.abs(mouseY - currentY) > 0.1) {
+          animId = requestAnimationFrame(step);
+        } else {
+          animId = null;
+        }
+      };
+
+      const startAnim = () => {
+        if (!animId) {
+          animId = requestAnimationFrame(step);
+        }
       };
 
       const onMouseMove = (e: MouseEvent) => {
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const itemRect = elem.getBoundingClientRect();
+        const x = e.clientX - itemRect.left;
+        const y = e.clientY - itemRect.top;
 
         if (x < 40 && x > 10 && y < 40 && y > 5) {
           mouseX = x;
           mouseY = y;
         } else {
-          mouseX = rect.width / 2;
-          mouseY = rect.height / 2;
+          mouseX = centerX;
+          mouseY = centerY;
         }
+        startAnim();
       };
 
-      document.addEventListener("mousemove", onMouseMove);
+      const onMouseLeave = () => {
+        mouseX = centerX;
+        mouseY = centerY;
+        startAnim();
+      };
 
-      updatePosition();
+      elem.addEventListener("mousemove", onMouseMove);
+      elem.addEventListener("mouseleave", onMouseLeave);
 
-      return () => {
+      cleanupFns.push(() => {
+        if (animId) cancelAnimationFrame(animId);
         elem.removeEventListener("mousemove", onMouseMove);
-      };
+        elem.removeEventListener("mouseleave", onMouseLeave);
+      });
     });
+
+    return () => {
+      cleanupFns.forEach((fn) => fn());
+    };
   }, []);
 
   return (
@@ -61,7 +90,7 @@ const SocialIcons = () => {
       <div className="social-icons" data-cursor="icons" id="social">
         <span>
           <a
-            href="https://github.com/akashrmalhotra"
+            href="https://github.com/iam-talhaa"
             target="_blank"
             rel="noreferrer"
           >
@@ -70,7 +99,7 @@ const SocialIcons = () => {
         </span>
         <span>
           <a
-            href="https://www.linkedin.com/in/akashrmalhotra/"
+            href="https://www.linkedin.com/in/talhaakhaan"
             target="_blank"
             rel="noreferrer"
           >
@@ -79,26 +108,17 @@ const SocialIcons = () => {
         </span>
         <span>
           <a
-            href="https://www.youtube.com/@Leftbraincoder"
+            href="https://wa.me/923151964106"
             target="_blank"
             rel="noreferrer"
           >
-            <FaYoutube />
-          </a>
-        </span>
-        <span>
-          <a
-            href="https://www.instagram.com/leftbraincoder/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FaInstagram />
+            <FaWhatsapp />
           </a>
         </span>
       </div>
       <a
         className="resume-button"
-        href="/Akash_Malhotra.pdf"
+        href="/Muhammad_Talha_Resume.pdf"
         target="_blank"
         rel="noreferrer"
       >

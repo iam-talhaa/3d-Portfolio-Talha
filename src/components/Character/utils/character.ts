@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { DRACOLoader, GLTF, GLTFLoader } from "three-stdlib";
-import { setCharTimeline, setAllTimeline } from "../../utils/GsapScroll";
 import { decryptFile } from "./decrypt";
 
 const setCharacter = (
@@ -50,11 +49,9 @@ const setCharacter = (
                 mesh.frustumCulled = true;
               }
             });
-            resolve(gltf);
-            setCharTimeline(character, camera);
-            setAllTimeline();
             character!.getObjectByName("footR")!.position.y = 3.36;
             character!.getObjectByName("footL")!.position.y = 3.36;
+            resolve(gltf);
 
             // Monitor scale is handled by GsapScroll.ts animations
 

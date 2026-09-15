@@ -18,16 +18,23 @@ const MainContainer = ({ children }: PropsWithChildren) => {
   );
 
   useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    setSplitText();
+
     const resizeHandler = () => {
-      setSplitText();
+      clearTimeout(timeoutId);
       setIsDesktopView(window.innerWidth > 1024);
+      timeoutId = setTimeout(() => {
+        setSplitText();
+      }, 250);
     };
-    resizeHandler();
+
     window.addEventListener("resize", resizeHandler);
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener("resize", resizeHandler);
     };
-  }, [isDesktopView]);
+  }, []);
 
   return (
     <div className="container-main">
