@@ -45,19 +45,20 @@ const Navbar = () => {
         <a href="/#" className="navbar-title" data-cursor="disable">
           MT
         </a>
-        <a
-          href="https://www.linkedin.com/in/talhaakhaan"
-          className="navbar-connect"
-          data-cursor="disable"
-          target="_blank"
-          rel="noreferrer"
-        >
-          linkedin.com/in/talhaakhaan
-        </a>
         <ul>
           <li>
             <a data-href="#about" href="#about">
               <HoverLinks text="ABOUT" />
+            </a>
+          </li>
+          <li>
+            <a data-href="#experience" href="#experience">
+              <HoverLinks text="EXPERIENCE" />
+            </a>
+          </li>
+          <li>
+            <a data-href="#certifications" href="#certifications">
+              <HoverLinks text="CERTIFICATIONS" />
             </a>
           </li>
           <li>

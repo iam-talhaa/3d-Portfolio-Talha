@@ -4,6 +4,7 @@ const About = () => {
   return (
     <div className="about-section" id="about">
       <div className="about-me">
+        <div className="about-corner"></div>
         <h3 className="title">About Me</h3>
         <p className="para">
           I am a Flutter Developer specializing in building high-performance,

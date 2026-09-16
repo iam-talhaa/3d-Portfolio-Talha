@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0c121e"/>
+      <stop offset="50%" stop-color="#070c14"/>
+      <stop offset="100%" stop-color="#05080e"/>
+    </linearGradient>
+    <linearGradient id="accentGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#5eead4" stop-opacity="0.3"/>
+      <stop offset="50%" stop-color="#0d9488" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.25"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#5eead4" stop-opacity="0.15"/>
+      <stop offset="60%" stop-color="#0d9488" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-opacity="0.03" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <rect width="600" height="800" fill="url(#grid)"/>
+  <circle cx="300" cy="360" r="280" fill="url(#halo)"/>
+
+  <!-- Geometric Tech Graphic -->
+  <g transform="translate(300, 380)" opacity="0.85">
+    <polygon points="0,-140 120,-20 120,120 0,60 -120,120 -120,-20" fill="none" stroke="#5eead4" stroke-opacity="0.25" stroke-width="1.5" stroke-dasharray="6,4"/>
+    <polygon points="0,-110 95,-15 95,95 0,45 -95,95 -95,-15" fill="none" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1"/>
+    <!-- Flutter stylized bird / logo geometry -->
+    <path d="M -40,-40 L 40,40 L 15,65 L -65,-15 Z" fill="#5eead4" fill-opacity="0.45"/>
+    <path d="M 0,-80 L 80,0 L 40,40 L -40,-40 Z" fill="#0d9488" fill-opacity="0.3"/>
+    <path d="M -20,20 L 20,60 L -10,90 L -50,50 Z" fill="#38bdf8" fill-opacity="0.5"/>
+    <circle cx="0" cy="0" r="160" fill="none" stroke="#5eead4" stroke-opacity="0.1" stroke-width="1"/>
+    <circle cx="0" cy="0" r="180" fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1" stroke-dasharray="4,8"/>
+  </g>
+
+  <!-- Decorative Circuit lines -->
+  <path d="M 60,600 L 180,600 L 220,640 L 440,640" fill="none" stroke="#5eead4" stroke-opacity="0.2" stroke-width="1.5"/>
+  <circle cx="60" cy="600" r="4" fill="#5eead4" fill-opacity="0.5"/>
+  <circle cx="440" cy="640" r="4" fill="#5eead4" fill-opacity="0.5"/>
+</svg>

@@ -68,8 +68,12 @@ export function setCharTimeline(
         .to(camera.position, { z: 22 }, 0)
         .fromTo(".character-model", { x: 0 }, { x: "-25%", duration: 1 }, 0)
         .to(".landing-container", { opacity: 0, duration: 0.4 }, 0)
-        .to(".landing-container", { y: "40%", duration: 0.8 }, 0)
-        .fromTo(".about-me", { y: "-50%" }, { y: "0%" }, 0);
+        .fromTo(
+          ".about-me",
+          { opacity: 0, y: "60px" },
+          { opacity: 1, y: "0%", duration: 0.6, delay: 0.35 },
+          0
+        );
 
       tl2
         .to(

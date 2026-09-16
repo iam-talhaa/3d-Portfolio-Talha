@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#140f26"/>
+      <stop offset="50%" stop-color="#0b0818"/>
+      <stop offset="100%" stop-color="#05030d"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.18"/>
+      <stop offset="50%" stop-color="#7c3aed" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-opacity="0.03" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="600" height="800" fill="url(#bg)"/>
+  <rect width="600" height="800" fill="url(#grid)"/>
+  <circle cx="300" cy="380" r="280" fill="url(#halo)"/>
+
+  <!-- Masterclass Code / Diamond Motif -->
+  <g transform="translate(300, 390)">
+    <polygon points="0,-120 120,0 0,120 -120,0" fill="none" stroke="#a855f7" stroke-opacity="0.4" stroke-width="2"/>
+    <polygon points="0,-90 90,0 0,90 -90,0" fill="none" stroke="#c084fc" stroke-opacity="0.2" stroke-width="1" stroke-dasharray="6,4"/>
+    <polygon points="0,-60 60,0 0,60 -60,0" fill="#9333ea" fill-opacity="0.25"/>
+
+    <!-- Central code brackets -->
+    <path d="M -30,-20 L -50,0 L -30,20" fill="none" stroke="#ffffff" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 30,-20 L 50,0 L 30,20" fill="none" stroke="#ffffff" stroke-opacity="0.7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="12" y1="-25" x2="-12" y2="25" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="0" cy="0" r="160" fill="none" stroke="#a855f7" stroke-opacity="0.1" stroke-width="1"/>
+    <circle cx="0" cy="0" r="185" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1" stroke-dasharray="4,8"/>
+  </g>
+
+  <path d="M 520,620 L 380,620 L 330,655 L 90,655" fill="none" stroke="#a855f7" stroke-opacity="0.2" stroke-width="1.5"/>
+  <circle cx="520" cy="620" r="4" fill="#a855f7" fill-opacity="0.5"/>
+  <circle cx="90" cy="655" r="4" fill="#a855f7" fill-opacity="0.5"/>
+</svg>

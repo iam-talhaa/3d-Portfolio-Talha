@@ -1,331 +1,210 @@
-import * as THREE from "three";
-import { useRef, useMemo, useState, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
-import { EffectComposer, N8AO } from "@react-three/postprocessing";
+import React, { useRef, useState, useEffect, useCallback } from "react";
+import { gsap } from "gsap";
 import {
-  BallCollider,
-  Physics,
-  RigidBody,
-  RapierRigidBody,
-} from "@react-three/rapier";
+  SiFlutter,
+  SiDart,
+  SiFirebase,
+  SiSqlite,
+  SiGit,
+  SiAndroidstudio,
+  SiFigma,
+  SiTypescript,
+  SiReact,
+  SiNodedotjs,
+  SiMongodb,
+} from "react-icons/si";
+import { TbApi } from "react-icons/tb";
+import "./styles/TechStack.css";
 
-const textureLoader = new THREE.TextureLoader();
-const imageUrls = [
-  "/images/flutter.webp",
-  "/images/dart.webp",
-  "/images/firebase.webp",
-  "/images/rest-api.webp",
-  "/images/sqlite.webp",
-  "/images/git.webp",
-  "/images/androidstudio.webp",
-  "/images/figma.webp",
+interface TechItem {
+  name: string;
+  icon: React.ComponentType<{ size?: number | string; color?: string }>;
+  color: string;
+}
+
+const techStackData: TechItem[] = [
+  { name: "Flutter", icon: SiFlutter, color: "#54C5F8" },
+  { name: "Dart", icon: SiDart, color: "#00B4AB" },
+  { name: "Firebase", icon: SiFirebase, color: "#FFCA28" },
+  { name: "REST APIs", icon: TbApi, color: "#5eead4" },
+  { name: "SQLite", icon: SiSqlite, color: "#38bdf8" },
+  { name: "Git", icon: SiGit, color: "#F05032" },
+  { name: "Android Studio", icon: SiAndroidstudio, color: "#3DDC84" },
+  { name: "Figma", icon: SiFigma, color: "#F24E1E" },
+  { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+  { name: "React", icon: SiReact, color: "#61DAFB" },
+  { name: "Node.js", icon: SiNodedotjs, color: "#5FA04E" },
+  { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
 ];
-const textures = imageUrls.map((url) => textureLoader.load(url));
 
-const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
+const TechStack: React.FC = () => {
+  const ballRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-// 24 spheres evenly distributing all 8 technologies
-// Arranged strictly on the 2D plane (Z = 0) around the specific center location
-const sphereData = Array.from({ length: 24 }, (_, i) => {
-  const angle = (i / 24) * Math.PI * 2 + (i % 2) * 0.25;
-  const radius = 1.4 + (i % 3) * 1.3;
-  return {
-    scale: 0.8 + (i % 3) * 0.08,
-    textureIndex: i % imageUrls.length,
-    initialPos: [
-      Math.cos(angle) * radius,
-      Math.sin(angle) * radius - 1.8,
-      0,
-    ] as [number, number, number],
-  };
-});
+  // Calculate columns responsively based on screen width
+  const getColumnCount = useCallback((): number => {
+    if (typeof window === "undefined") return 4;
+    if (window.innerWidth <= 640) return 2;
+    if (window.innerWidth <= 960) return 3;
+    return 4;
+  }, []);
 
-type InteractionState = {
-  isHovered: boolean;
-  lastInteraction: number;
-  pointerPos: { x: number; y: number };
-};
-
-type SphereProps = {
-  scale: number;
-  material: THREE.MeshPhysicalMaterial;
-  isActive: boolean;
-  initialPos: [number, number, number];
-  interactionState: InteractionState;
-};
-
-function SphereGeo({
-  scale,
-  material,
-  isActive,
-  initialPos,
-  interactionState,
-}: SphereProps) {
-  const api = useRef<RapierRigidBody | null>(null);
-  const targetPoint = useMemo(() => new THREE.Vector3(0, -1.8, 0), []);
-
-  useFrame((_state, delta) => {
-    if (!isActive || !api.current) return;
-    delta = Math.min(0.04, delta);
-
-    const trans = api.current.translation();
-    const timeSinceInteraction =
-      (Date.now() - interactionState.lastInteraction) / 1000;
-
-    // Active moving phase: user is hovering or moved cursor within the last 2 seconds
-    const isMoving = interactionState.isHovered || timeSinceInteraction < 2.0;
-
-    // 2-Dimensional direction towards specific location (X: horizontal, Y: vertical)
-    const dx = targetPoint.x - trans.x;
-    const dy = targetPoint.y - trans.y;
-    const dist = Math.hypot(dx, dy);
-
-    if (isMoving) {
-      // Free moving phase: low damping for lively 2D motion and collisions
-      api.current.setLinearDamping(1.5);
-      api.current.setAngularDamping(2.0);
-
-      // Centering force so balls stay within view bounds
-      if (dist > 0.1) {
-        const centerForce = Math.min(dist * 18, 40) * delta * scale;
-        api.current.applyImpulse(
-          { x: (dx / dist) * centerForce, y: (dy / dist) * centerForce, z: 0 },
-          true
-        );
-      }
-
-      // Cursor interaction: push ball away when cursor is nearby
-      if (interactionState.isHovered) {
-        const pX = interactionState.pointerPos.x;
-        const pY = interactionState.pointerPos.y;
-        const fromPointerX = trans.x - pX;
-        const fromPointerY = trans.y - pY;
-        const pDist = Math.hypot(fromPointerX, fromPointerY);
-        const hitRadius = scale + 1.8;
-
-        if (pDist < hitRadius && pDist > 0.01) {
-          const pushMagnitude =
-            Math.pow(1 - pDist / hitRadius, 1.4) * 65 * delta * scale;
-          api.current.applyImpulse(
-            {
-              x: (fromPointerX / pDist) * pushMagnitude,
-              y: (fromPointerY / pDist) * pushMagnitude,
-              z: 0,
-            },
-            true
-          );
-          interactionState.lastInteraction = Date.now();
-        }
-      }
-    } else {
-      // Stopping phase: converge to the specific center location, collide in 2D, and come to a rest
-      const settleProgress = Math.min(1, (timeSinceInteraction - 2.0) / 1.5);
-      const currentDamping = 2.0 + settleProgress * 8.0;
-      api.current.setLinearDamping(currentDamping);
-      api.current.setAngularDamping(currentDamping);
-
-      if (dist > 0.05) {
-        const pullMagnitude = Math.min(dist * 28, 55) * delta * scale;
-        api.current.applyImpulse(
-          {
-            x: (dx / dist) * pullMagnitude,
-            y: (dy / dist) * pullMagnitude,
-            z: 0,
-          },
-          true
-        );
-      }
-
-      // Completely zero out velocity when settled so the balls stop firmly
-      if (settleProgress >= 0.9) {
-        const linvel = api.current.linvel();
-        if (Math.hypot(linvel.x, linvel.y) < 0.15) {
-          api.current.setLinvel({ x: 0, y: 0, z: 0 }, true);
-          api.current.setAngvel({ x: 0, y: 0, z: 0 }, true);
-        }
-      }
-    }
-  });
-
-  return (
-    <RigidBody
-      linearDamping={1.5}
-      angularDamping={2.0}
-      friction={0.3}
-      restitution={0.5}
-      position={initialPos}
-      enabledTranslations={[true, true, false]}
-      lockRotations={true}
-      ref={api}
-      colliders={false}
-    >
-      <BallCollider args={[scale]} />
-      <mesh
-        castShadow
-        receiveShadow
-        scale={scale}
-        geometry={sphereGeometry}
-        material={material}
-        rotation={[0, -Math.PI / 2, 0]}
-      />
-    </RigidBody>
-  );
-}
-
-type PointerProps = {
-  isActive: boolean;
-  interactionState: InteractionState;
-};
-
-function Pointer({ isActive, interactionState }: PointerProps) {
-  const ref = useRef<RapierRigidBody>(null);
-  const prevPointer = useRef({ x: 999, y: 999 });
-
-  useFrame(({ pointer, viewport }) => {
-    if (!isActive || !ref.current) return;
-
-    if (
-      Math.abs(pointer.x - prevPointer.current.x) > 0.005 ||
-      Math.abs(pointer.y - prevPointer.current.y) > 0.005
-    ) {
-      prevPointer.current.x = pointer.x;
-      prevPointer.current.y = pointer.y;
-      interactionState.lastInteraction = Date.now();
-    }
-
-    if (interactionState.isHovered) {
-      const targetVec = {
-        x: (pointer.x * viewport.width) / 2,
-        y: (pointer.y * viewport.height) / 2,
-        z: 0,
-      };
-      interactionState.pointerPos.x = targetVec.x;
-      interactionState.pointerPos.y = targetVec.y;
-      ref.current.setNextKinematicTranslation(targetVec);
-    } else {
-      ref.current.setNextKinematicTranslation({ x: 100, y: 100, z: 0 });
-    }
-  });
-
-  return (
-    <RigidBody
-      position={[100, 100, 0]}
-      type="kinematicPosition"
-      colliders={false}
-      enabledTranslations={[true, true, false]}
-      ref={ref}
-    >
-      <BallCollider args={[1.5]} />
-    </RigidBody>
-  );
-}
-
-const TechStack = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
-
-  const interactionState = useRef<InteractionState>({
-    isHovered: false,
-    lastInteraction: 0,
-    pointerPos: { x: 100, y: 100 },
-  }).current;
+  const [columns, setColumns] = useState<number>(getColumnCount());
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
-      { rootMargin: "150px 0px", threshold: 0 }
-    );
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-    return () => {
-      observer.disconnect();
+    const handleResize = () => {
+      setColumns(getColumnCount());
     };
-  }, []);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [getColumnCount]);
 
-  const materials = useMemo(() => {
-    return textures.map(
-      (texture) =>
-        new THREE.MeshPhysicalMaterial({
-          map: texture,
-          emissive: "#ffffff",
-          emissiveMap: texture,
-          emissiveIntensity: 0.3,
-          metalness: 0.5,
-          roughness: 1,
-          clearcoat: 0.1,
-        })
-    );
-  }, []);
+  // Collision Interaction: hover pushes ball and adjacent neighbors like billiard balls
+  const handleMouseEnter = (
+    e: React.MouseEvent<HTMLDivElement>,
+    index: number
+  ) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const relX = e.clientX - (rect.left + rect.width / 2);
+    const relY = e.clientY - (rect.top + rect.height / 2);
+
+    const pushDirX = relX >= 0 ? 1 : -1;
+    const pushDirY = relY >= 0 ? 1 : -1;
+
+    const cols = columns;
+    const row = Math.floor(index / cols);
+    const col = index % cols;
+
+    // 1. Hovered ball: scale up + slight nudge in push direction
+    const hoveredEl = ballRefs.current[index];
+    if (hoveredEl) {
+      gsap.to(hoveredEl, {
+        scale: 1.14,
+        x: pushDirX * 10,
+        y: pushDirY * 6,
+        duration: 0.35,
+        ease: "back.out(2)",
+        overwrite: "auto",
+      });
+    }
+
+    // 2. Billiard push into adjacent neighbor in the row (push direction)
+    const targetCol = col + pushDirX;
+    const targetNeighborIndex =
+      targetCol >= 0 && targetCol < cols ? index + pushDirX : null;
+
+    // Opposite neighbor in the row (slight reaction bounce)
+    const oppositeCol = col - pushDirX;
+    const oppositeNeighborIndex =
+      oppositeCol >= 0 && oppositeCol < cols ? index - pushDirX : null;
+
+    if (
+      targetNeighborIndex !== null &&
+      targetNeighborIndex >= 0 &&
+      targetNeighborIndex < techStackData.length
+    ) {
+      const el = ballRefs.current[targetNeighborIndex];
+      if (el) {
+        gsap.to(el, {
+          x: pushDirX * 24,
+          y: pushDirY * 4,
+          scale: 0.95,
+          duration: 0.42,
+          ease: "elastic.out(1, 0.45)",
+          overwrite: "auto",
+        });
+      }
+    }
+
+    if (
+      oppositeNeighborIndex !== null &&
+      oppositeNeighborIndex >= 0 &&
+      oppositeNeighborIndex < techStackData.length
+    ) {
+      const el = ballRefs.current[oppositeNeighborIndex];
+      if (el) {
+        gsap.to(el, {
+          x: -pushDirX * 8,
+          scale: 0.98,
+          duration: 0.4,
+          ease: "elastic.out(1, 0.45)",
+          overwrite: "auto",
+        });
+      }
+    }
+
+    // 3. Vertical neighbor in the column (push direction)
+    const targetRow = row + pushDirY;
+    const totalRows = Math.ceil(techStackData.length / cols);
+    const verticalNeighborIndex =
+      targetRow >= 0 && targetRow < totalRows ? index + pushDirY * cols : null;
+
+    if (
+      verticalNeighborIndex !== null &&
+      verticalNeighborIndex >= 0 &&
+      verticalNeighborIndex < techStackData.length
+    ) {
+      const el = ballRefs.current[verticalNeighborIndex];
+      if (el) {
+        gsap.to(el, {
+          y: pushDirY * 16,
+          scale: 0.96,
+          duration: 0.42,
+          ease: "elastic.out(1, 0.45)",
+          overwrite: "auto",
+        });
+      }
+    }
+  };
+
+  // Return to Rest State: smoothly restore all balls to rest position (x:0, y:0, scale:1)
+  const handleMouseLeave = () => {
+    ballRefs.current.forEach((el) => {
+      if (el) {
+        gsap.to(el, {
+          x: 0,
+          y: 0,
+          scale: 1,
+          duration: 0.45,
+          ease: "elastic.out(1, 0.45)",
+          overwrite: "auto",
+        });
+      }
+    });
+  };
 
   return (
-    <div
-      className="techstack"
-      ref={containerRef}
-      onPointerEnter={() => {
-        interactionState.isHovered = true;
-        interactionState.lastInteraction = Date.now();
-      }}
-      onPointerLeave={() => {
-        interactionState.isHovered = false;
-      }}
-      onPointerMove={() => {
-        interactionState.isHovered = true;
-        interactionState.lastInteraction = Date.now();
-      }}
-    >
-      <h2> My Techstack</h2>
+    <div className="techstack" id="techstack">
+      <h2>My Techstack</h2>
 
-      <Canvas
-        shadows
-        dpr={[1, 1.5]}
-        frameloop={isInView ? "always" : "never"}
-        gl={{
-          alpha: true,
-          stencil: false,
-          depth: false,
-          antialias: false,
-          powerPreference: "high-performance",
-        }}
-        camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
-        onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
-        className="tech-canvas"
-      >
-        <ambientLight intensity={1} />
-        <spotLight
-          position={[20, 20, 25]}
-          penumbra={1}
-          angle={0.2}
-          color="white"
-          castShadow
-          shadow-mapSize={[512, 512]}
-        />
-        <directionalLight position={[0, 5, 4]} intensity={2} />
-        <Physics gravity={[0, 0, 0]}>
-          <Pointer isActive={isInView} interactionState={interactionState} />
-          {sphereData.map((data, i) => (
-            <SphereGeo
-              key={i}
-              scale={data.scale}
-              initialPos={data.initialPos}
-              material={materials[data.textureIndex]}
-              isActive={isInView}
-              interactionState={interactionState}
-            />
-          ))}
-        </Physics>
-        <Environment
-          files="/models/char_enviorment.hdr"
-          environmentIntensity={0.5}
-          environmentRotation={[0, 4, 2]}
-        />
-        <EffectComposer enableNormalPass={false}>
-          <N8AO color="#0f002c" aoRadius={2} intensity={1.15} />
-        </EffectComposer>
-      </Canvas>
+      <div className="tech-grid-container">
+        <div
+          className="tech-grid"
+          style={{ "--tech-columns": columns } as React.CSSProperties}
+        >
+          {techStackData.map((tech, index) => {
+            const IconComponent = tech.icon;
+            return (
+              <div key={tech.name} className="tech-ball-wrapper">
+                <div
+                  ref={(el) => {
+                    ballRefs.current[index] = el;
+                  }}
+                  className="tech-ball"
+                  onMouseEnter={(e) => handleMouseEnter(e, index)}
+                  onMouseLeave={handleMouseLeave}
+                  title={tech.name}
+                  aria-label={tech.name}
+                >
+                  <div className="tech-icon-container">
+                    <IconComponent color={tech.color} />
+                  </div>
+                </div>
+                <span className="tech-label">{tech.name}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };

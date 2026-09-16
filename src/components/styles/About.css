@@ -8,19 +8,68 @@
   height: auto;
   width: var(--cWidth);
   margin: auto;
+  margin-top: 80px;
+  padding: 40px 0;
 }
+
 .about-me {
-  padding: 50px 0px;
-  padding-bottom: 0;
+  position: relative;
+  border: 1.5px dashed rgba(255, 255, 255, 0.35);
+  box-sizing: border-box;
+  padding: 35px 30px;
   width: 500px;
   max-width: calc(100% - 15px);
 }
+
+/* ── Corner L-brackets matching What I Do section ── */
+.about-me::before,
+.about-corner::before,
+.about-me::after,
+.about-corner::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  border: 3.5px solid #fff;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.about-me::before {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.about-corner::before {
+  top: -2px;
+  right: -2px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.about-me::after {
+  bottom: -2px;
+  left: -2px;
+  border-top: none;
+  border-right: none;
+}
+
+.about-corner::after {
+  bottom: -2px;
+  right: -2px;
+  border-left: none;
+  border-top: none;
+}
+
 .about-me h3 {
   font-size: 25px;
   text-transform: uppercase;
   letter-spacing: 7px;
   font-weight: 400;
   color: var(--accentColor);
+  margin-top: 0;
 }
 
 .about-me p {
@@ -28,6 +77,7 @@
   font-weight: 600;
   line-height: 36px;
   letter-spacing: 1px;
+  margin-bottom: 0;
 }
 
 @media only screen and (min-width: 600px) {
@@ -35,37 +85,46 @@
     justify-content: center;
   }
 }
+
 @media only screen and (min-width: 768px) {
   .about-me {
     width: 500px;
     max-width: calc(100% - 70px);
     transform: translateY(0%);
+    padding: 40px 35px;
   }
   .about-section {
     opacity: 1;
+    margin-top: 80px;
+    padding: 50px 0;
   }
 }
+
 @media only screen and (min-width: 1025px) {
   .about-section {
     width: var(--cWidth);
     justify-content: right;
     max-width: 1920px;
     height: var(--vh);
+    min-height: var(--vh);
     padding: 0px;
+    margin-top: 0;
     opacity: 1;
   }
   .about-me {
-    padding: 0px;
+    padding: 45px 50px;
     width: 50%;
+    opacity: 0;
   }
   .about-me p {
-    font-size: 1.9vw;
+    font-size: 1.8vw;
     line-height: 2.3vw;
   }
 }
+
 @media only screen and (min-width: 1950px) {
   .about-me p {
-    font-size: 2.5rem;
-    line-height: 2.7rem;
+    font-size: 2.3rem;
+    line-height: 2.6rem;
   }
 }
