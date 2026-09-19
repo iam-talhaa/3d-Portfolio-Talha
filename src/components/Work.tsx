@@ -5,10 +5,10 @@ import { MdArrowBack, MdArrowForward } from "react-icons/md";
 
 const projects = [
   {
-    title: "Gynea Guide",
+    title: "Gynae Guide",
     category: "Gynecologist Health & Information App",
     tools: "Flutter, Firebase, Health Calculators, Clean Architecture",
-    image: "/images/placeholder.webp",
+    image: "/images/Gynae_Guide.png",
     link: "",
   },
   {
@@ -29,14 +29,7 @@ const projects = [
     title: "Liver Disease Detection",
     category: "Flutter + Machine Learning Health App",
     tools: "Flutter, TensorFlow Lite, Medical Data Input, ~90% Accuracy",
-    image: "/images/placeholder.webp",
-    link: "",
-  },
-  {
-    title: "Gynae Guide",
-    category: "Obstetrics & Gynecology Reference App",
-    tools: "Medical Calculators, Clinical Guidelines, Disease Classification, Pharmacology Reference",
-    image: "/images/Gynae_Guide.png",
+    image: "/images/Liver_Disease_Detection.png",
     link: "",
   },
   {
@@ -160,18 +153,52 @@ const Work = () => {
             </div>
           </div>
 
-          {/* Dot Indicators */}
-          <div className="carousel-dots">
+          {/* Dot Indicators for Desktop */}
+          <div className="carousel-dots carousel-dots-desktop">
             {projects.map((_, index) => (
               <button
                 key={index}
-                className={`carousel-dot ${index === currentIndex ? "carousel-dot-active" : ""
-                  }`}
+                className={`carousel-dot ${
+                  index === currentIndex ? "carousel-dot-active" : ""
+                }`}
                 onClick={() => goToSlide(index)}
                 aria-label={`Go to project ${index + 1}`}
                 data-cursor="disable"
               />
             ))}
+          </div>
+
+          {/* Bottom Controls for Responsive Viewports */}
+          <div className="carousel-controls-bottom">
+            <button
+              className="carousel-arrow carousel-arrow-bottom"
+              onClick={goToPrev}
+              aria-label="Previous project"
+              data-cursor="disable"
+            >
+              <MdArrowBack />
+            </button>
+            <div className="carousel-dots">
+              {projects.map((_, index) => (
+                <button
+                  key={index}
+                  className={`carousel-dot ${
+                    index === currentIndex ? "carousel-dot-active" : ""
+                  }`}
+                  onClick={() => goToSlide(index)}
+                  aria-label={`Go to project ${index + 1}`}
+                  data-cursor="disable"
+                />
+              ))}
+            </div>
+            <button
+              className="carousel-arrow carousel-arrow-bottom"
+              onClick={goToNext}
+              aria-label="Next project"
+              data-cursor="disable"
+            >
+              <MdArrowForward />
+            </button>
           </div>
         </div>
       </div>
