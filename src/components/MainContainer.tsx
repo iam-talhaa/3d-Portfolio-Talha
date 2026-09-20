@@ -9,6 +9,7 @@ import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import Certifications from "./Certifications";
+import Reviews from "./Reviews";
 import Footer from "./Footer";
 import setSplitText from "./utils/splitText";
 
@@ -56,6 +57,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <Suspense fallback={<div>Loading....</div>}>
               <TechStack />
             </Suspense>
+            <Reviews />
             <Contact />
             <Footer />
           </div>

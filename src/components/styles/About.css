@@ -16,12 +16,14 @@
   position: relative;
   border: 1.5px dashed rgba(255, 255, 255, 0.35);
   box-sizing: border-box;
-  padding: 35px 30px;
-  width: 500px;
+  padding: 40px 35px;
+  width: 550px;
   max-width: calc(100% - 15px);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
-/* ── Corner L-brackets matching What I Do section ── */
+/* ── Corner L-brackets matching What I Do section exactly ── */
 .about-me::before,
 .about-corner::before,
 .about-me::after,
@@ -63,21 +65,29 @@
   border-top: none;
 }
 
-.about-me h3 {
-  font-size: 25px;
+.about-me h3.title {
+  font-size: 26px;
   text-transform: uppercase;
-  letter-spacing: 7px;
+  letter-spacing: 6px;
   font-weight: 400;
   color: var(--accentColor);
   margin-top: 0;
+  margin-bottom: 22px;
 }
 
-.about-me p {
-  font-size: 33px;
-  font-weight: 600;
-  line-height: 36px;
-  letter-spacing: 1px;
-  margin-bottom: 0;
+.about-me p.para {
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: 0.3px;
+  color: #d1d5db;
+  margin: 0;
+}
+
+.about-me p.para span {
+  color: #ffffff;
+  font-weight: 500;
 }
 
 @media only screen and (min-width: 600px) {
@@ -88,10 +98,9 @@
 
 @media only screen and (min-width: 768px) {
   .about-me {
-    width: 500px;
+    width: 550px;
     max-width: calc(100% - 70px);
-    transform: translateY(0%);
-    padding: 40px 35px;
+    padding: 42px 40px;
   }
   .about-section {
     opacity: 1;
@@ -112,19 +121,38 @@
     opacity: 1;
   }
   .about-me {
-    padding: 45px 50px;
-    width: 50%;
+    padding: 45px 45px;
+    width: 48%;
+    max-width: 580px;
     opacity: 0;
   }
-  .about-me p {
-    font-size: 1.8vw;
-    line-height: 2.3vw;
+  .about-me p.para {
+    font-size: 1.12rem;
+    line-height: 1.75;
   }
 }
 
-@media only screen and (min-width: 1950px) {
-  .about-me p {
-    font-size: 2.3rem;
-    line-height: 2.6rem;
+@media only screen and (min-width: 1600px) {
+  .about-me {
+    max-width: 620px;
+    padding: 50px 50px;
+  }
+  .about-me p.para {
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .about-me {
+    padding: 30px 22px;
+  }
+  .about-me h3.title {
+    font-size: 22px;
+    letter-spacing: 4px;
+  }
+  .about-me p.para {
+    font-size: 14.5px;
+    line-height: 1.65;
   }
 }

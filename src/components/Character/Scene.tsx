@@ -76,6 +76,10 @@ const Scene = () => {
             if (!isMounted) return;
             light.turnOnLights();
             animations.startIntro();
+            // Refresh ScrollTrigger to ensure smooth calculations
+            import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+              ScrollTrigger.refresh();
+            });
           }, 2500);
         });
         onResize = () => handleResize(renderer, camera, canvasDiv, charObj);
@@ -136,9 +140,11 @@ const Scene = () => {
             interpolation.y,
             THREE.MathUtils.lerp
           );
-          light.setPointLight(screenLight);
+          if (screenLight && screenLight.material && screenLight.material.opacity > 0.05) {
+            light.setPointLight(screenLight);
+          }
         }
-        const delta = clock.getDelta();
+        const delta = Math.min(clock.getDelta(), 0.1);
         if (mixer) {
           mixer.update(delta);
         }

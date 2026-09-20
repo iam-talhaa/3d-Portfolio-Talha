@@ -1,68 +1,77 @@
 export interface CertificationItem {
+  id: string;
   title: string;
   image: string;
-  date: string;
-  tag: string;
-  link?: string;
   issuer?: string;
+  tag?: string;
+  date?: string;
+  link?: string;
 }
 
 export const certifications: CertificationItem[] = [
   {
-    title: "Advanced Flutter UI & State Management",
-    image: "/certificates/flutter-ui.svg",
-    date: "2026",
-    tag: "COURSERA",
-    issuer: "Coursera [Packt]",
-    link: "https://www.coursera.org",
-  },
-  {
-    title: "Certified Scrum Master",
-    image: "/certificates/scrum-master.svg",
-    date: "2024",
-    tag: "SCRUM ALLIANCE",
-    issuer: "Scrum Alliance",
-    link: "https://www.scrumalliance.org",
-  },
-  {
-    title: "Agile Project Management",
-    image: "/certificates/agile-pm.svg",
-    date: "2025",
-    tag: "HP LIFE",
-    issuer: "HP LIFE | HP Foundation",
-    link: "https://www.life-global.org",
-  },
-  {
-    title: "Flutter Masterclass (Dart & Firebase)",
-    image: "/certificates/flutter-masterclass.svg",
-    date: "2024",
-    tag: "UDEMY",
+    id: "flutter-masterclass",
+    title: "Flutter Masterclass (Dart, Api, Firebase)",
+    image: "/images/Flutter Masterclass (Dart, Api, Firebase).png",
     issuer: "Udemy",
-    link: "https://www.udemy.com",
-  },
-  {
-    title: "Flutter Mobile App Development",
-    image: "/certificates/saylani-flutter.svg",
+    tag: "Flutter & Firebase",
     date: "2024",
-    tag: "SAYLANI",
-    issuer: "Saylani Mass IT Training Program",
-    link: "https://www.saylaniwelfare.com",
   },
   {
-    title: "Certified Scrum Master",
-    image: "/certificates/navttc-scrum.svg",
-    date: "2024",
-    tag: "NAVTTC",
-    issuer: "Corvit Systems Peshawar / NAVTTC",
-    link: "https://navttc.gov.pk",
-  },
-  {
-    title: "Soft Skills & Professional Comms",
-    image: "/certificates/pseb-skills.svg",
+    id: "soft-skills",
+    title: "Soft Skill Certificate",
+    image: "/images/Soft Skill Certificate.png",
+    issuer: "PSEB",
+    tag: "Professional Skills",
     date: "2025",
-    tag: "PSEB",
-    issuer: "Pakistan Software Export Board",
-    link: "https://pseb.org.pk",
+  },
+  {
+    id: "advanced-flutter",
+    title: "Advanced Flutter UI and State Management",
+    image: "/images/Advanced Flutter UI and State Management.png",
+    issuer: "Coursera / Packt",
+    tag: "Flutter UI & State",
+    date: "2026",
+  },
+  {
+    id: "intro-scrum-master",
+    title: "Introduction to Scrum Master Profession",
+    image: "/images/Introduction to Scrum Master Profession.png",
+    issuer: "Simplilearn / SkillUp",
+    tag: "Scrum Master",
+    date: "2024",
+  },
+  {
+    id: "mobile-app-dev",
+    title: "Mobile Application Development (Flutter)",
+    image: "/images/Mobile App Development.png",
+    issuer: "Saylani Mass IT Training",
+    tag: "Flutter Development",
+    date: "2024",
+  },
+  {
+    id: "agile-scrum-master",
+    title: "Agile Scrum Master",
+    image: "/images/Agile Scrum Master.png",
+    issuer: "Corvit Systems / NAVTTC",
+    tag: "Agile & Scrum",
+    date: "2024",
+  },
+  {
+    id: "certified-scrummaster",
+    title: "Certified ScrumMaster®",
+    image: "/images/Certified ScrumMaster®.png",
+    issuer: "Scrum Alliance",
+    tag: "CSM®",
+    date: "2024",
+  },
+  {
+    id: "agile-project-management",
+    title: "Agile Project Management Certifications",
+    image: "/images/Agile Project Management Certifications.png",
+    issuer: "HP LIFE / Foundation",
+    tag: "Project Management",
+    date: "2025",
   },
 ];
 

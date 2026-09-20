@@ -13,9 +13,16 @@
   margin: 0 auto;
   box-sizing: border-box;
   z-index: 1;
+  background-color: var(--backgroundColor);
 }
 
-.techstack h2 {
+.techstack-header {
+  text-align: center;
+  margin-bottom: 35px;
+  padding: 0 20px;
+}
+
+.techstack-header h2 {
   position: relative !important;
   top: auto !important;
   left: auto !important;
@@ -24,7 +31,7 @@
   font-weight: 400;
   text-align: center;
   text-transform: uppercase;
-  margin: 0 0 55px 0;
+  margin: 0 0 16px 0;
   background: linear-gradient(0deg, #0d9488, #ffffff);
   background-clip: text;
   -webkit-background-clip: text;
@@ -33,23 +40,84 @@
   width: 100%;
 }
 
+.techstack-header h2 > span {
+  font-family: "Geist", sans-serif;
+  font-weight: 300;
+  color: var(--accentColor, #5eead4);
+  -webkit-text-fill-color: var(--accentColor, #5eead4);
+}
+
+.techstack-subtitle {
+  font-size: 16px;
+  color: #94a3b8;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ── Category Filter Bar ── */
+.tech-categories-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  max-width: 900px;
+  margin: 0 auto 50px auto;
+  padding: 0 15px;
+  z-index: 2;
+}
+
+.tech-category-btn {
+  background: rgba(15, 23, 42, 0.7);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  outline: none;
+}
+
+.tech-category-btn:hover {
+  color: #ffffff;
+  border-color: rgba(94, 234, 212, 0.35);
+  background: rgba(94, 234, 212, 0.08);
+  transform: translateY(-2px);
+}
+
+.tech-category-btn.tech-category-active {
+  background: rgba(94, 234, 212, 0.16);
+  border-color: var(--accentColor, #5eead4);
+  color: var(--accentColor, #5eead4);
+  font-weight: 500;
+  box-shadow: 0 0 15px rgba(94, 234, 212, 0.25);
+}
+
 /* ── Grid Layout ── */
 .tech-grid-container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  max-width: 1200px;
   position: relative;
 }
 
 .tech-grid {
-  --tech-columns: 4;
-  --tech-gap: 40px;
+  --tech-columns: 5;
+  --tech-gap: 36px;
   display: grid;
   grid-template-columns: repeat(var(--tech-columns), auto);
   gap: var(--tech-gap);
   column-gap: var(--tech-gap);
-  row-gap: var(--tech-gap);
+  row-gap: 48px;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
@@ -64,6 +132,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 120px;
 }
 
 .tech-ball {
@@ -122,7 +191,7 @@
     0 0 25px rgba(94, 234, 212, 0.3);
 }
 
-/* ── Icon Sizing & Centering (~60% of ball) ── */
+/* ── Icon Sizing & Centering (~58% of ball) ── */
 .tech-icon-container {
   width: 58%;
   height: 58%;
@@ -146,43 +215,73 @@
   transform: scale(1.06);
 }
 
-/* ── Tech Name Tooltip / Caption ── */
+/* ── Tech Name Label ── */
 .tech-label {
-  position: absolute;
-  bottom: -28px;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: 10px;
   font-family: "Geist", sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.6px;
-  color: #94a3b8;
+  letter-spacing: 0.3px;
+  color: #e2e8f0;
+  text-align: center;
   white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease;
-  z-index: 10;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.25s ease, transform 0.25s ease;
+  z-index: 2;
+}
+
+.tech-tag {
+  font-size: 10px;
+  color: #64748b;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-top: 2px;
+  white-space: nowrap;
 }
 
 .tech-ball-wrapper:hover .tech-label {
-  opacity: 1;
-  transform: translateX(-50%) translateY(2px);
   color: var(--accentColor, #5eead4);
+  transform: translateY(-2px);
+}
+
+.tech-ball-wrapper:hover .tech-tag {
+  color: #94a3b8;
 }
 
 /* ── Responsive Breakpoints ── */
+@media screen and (max-width: 1280px) {
+  .tech-grid {
+    --tech-columns: 4;
+    --tech-gap: 32px;
+  }
+}
+
 @media screen and (max-width: 960px) {
-  .techstack h2 {
+  .techstack-header h2 {
     font-size: 48px;
     line-height: 52px;
-    margin-bottom: 45px;
+    margin-bottom: 12px;
   }
   .tech-grid {
     --tech-columns: 3;
-    --tech-gap: 36px;
+    --tech-gap: 28px;
+    row-gap: 38px;
   }
   .tech-ball {
     --ball-size: 80px;
+  }
+  .tech-ball-wrapper {
+    width: 105px;
+  }
+  .tech-label {
+    font-size: 12px;
+  }
+  .tech-category-btn {
+    font-size: 12px;
+    padding: 6px 14px;
   }
 }
 
@@ -191,20 +290,33 @@
     padding: 60px 16px 100px 16px;
     min-height: auto;
   }
-  .techstack h2 {
+  .techstack-header h2 {
     font-size: 34px;
     line-height: 38px;
+    margin-bottom: 10px;
+  }
+  .techstack-subtitle {
+    font-size: 14px;
+  }
+  .tech-categories-bar {
+    gap: 8px;
     margin-bottom: 35px;
   }
   .tech-grid {
     --tech-columns: 2;
-    --tech-gap: 28px;
+    --tech-gap: 20px;
+    row-gap: 30px;
   }
   .tech-ball {
     --ball-size: 72px;
   }
+  .tech-ball-wrapper {
+    width: 95px;
+  }
   .tech-label {
-    font-size: 11px;
-    bottom: -24px;
+    font-size: 11.5px;
+  }
+  .tech-tag {
+    font-size: 9px;
   }
 }

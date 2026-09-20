@@ -11,12 +11,12 @@ interface ParaElement extends HTMLElement {
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 
 export default function setSplitText() {
-  ScrollTrigger.config({ ignoreMobileResize: true });
+  ScrollTrigger.config({ ignoreMobileResize: true, autoRefreshEvents: "DOMContentLoaded,load,resize" });
   if (window.innerWidth < 900) return;
   const paras: NodeListOf<ParaElement> = document.querySelectorAll(".para");
   const titles: NodeListOf<ParaElement> = document.querySelectorAll(".title");
 
-  const TriggerStart = window.innerWidth <= 1024 ? "top 60%" : "20% 60%";
+  const TriggerStart = window.innerWidth <= 1024 ? "top 65%" : "20% 65%";
   const ToggleAction = "play pause resume reverse";
 
   paras.forEach((para: ParaElement) => {
@@ -27,24 +27,25 @@ export default function setSplitText() {
     }
 
     para.split = new SplitText(para, {
-      type: "lines,words",
+      type: "lines",
       linesClass: "split-line",
     });
 
     para.anim = gsap.fromTo(
-      para.split.words,
-      { autoAlpha: 0, y: 80 },
+      para.split.lines,
+      { autoAlpha: 0, y: 35 },
       {
         autoAlpha: 1,
         scrollTrigger: {
-          trigger: para.parentElement?.parentElement,
+          trigger: para.parentElement?.parentElement || para,
           toggleActions: ToggleAction,
           start: TriggerStart,
+          fastScrollEnd: true,
         },
-        duration: 1,
-        ease: "power3.out",
+        duration: 0.8,
+        ease: "power2.out",
         y: 0,
-        stagger: 0.02,
+        stagger: 0.08,
       }
     );
   });
@@ -59,19 +60,20 @@ export default function setSplitText() {
     });
     title.anim = gsap.fromTo(
       title.split.chars,
-      { autoAlpha: 0, y: 80, rotate: 10 },
+      { autoAlpha: 0, y: 50, rotate: 6 },
       {
         autoAlpha: 1,
         scrollTrigger: {
-          trigger: title.parentElement?.parentElement,
+          trigger: title.parentElement?.parentElement || title,
           toggleActions: ToggleAction,
           start: TriggerStart,
+          fastScrollEnd: true,
         },
-        duration: 0.8,
-        ease: "power2.inOut",
+        duration: 0.7,
+        ease: "power2.out",
         y: 0,
         rotate: 0,
-        stagger: 0.03,
+        stagger: 0.025,
       }
     );
   });
