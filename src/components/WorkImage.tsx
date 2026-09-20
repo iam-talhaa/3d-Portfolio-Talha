@@ -22,15 +22,30 @@ const WorkImage = (props: Props) => {
   };
 
   const content = (
-    <>
+    <div className="work-image-card-container">
+      {/* Ambient background glow */}
+      <div className="work-image-glow" aria-hidden="true" />
+
+      {/* Futuristic decorative border accents */}
+      <div className="work-image-border-gradient" aria-hidden="true" />
+      <div className="work-image-border-dashed" aria-hidden="true" />
+
+      {/* Main rectangular frame with 20px rounded corners */}
+      <div className="work-image-frame">
+        <div className="work-image-media">
+          <img src={props.image} alt={props.alt} />
+          {isVideo && <video src={video} autoPlay muted playsInline loop></video>}
+        </div>
+        {/* Glass reflection / shine sweep overlay */}
+        <div className="work-image-shine" aria-hidden="true" />
+      </div>
+
       {props.link && (
         <div className="work-link">
           <MdArrowOutward />
         </div>
       )}
-      <img src={props.image} alt={props.alt} />
-      {isVideo && <video src={video} autoPlay muted playsInline loop></video>}
-    </>
+    </div>
   );
 
   return (
